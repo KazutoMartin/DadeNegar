@@ -8,6 +8,8 @@
 #include <iostream>
 
 
+using namespace std;
+
 class Database; 
 
 
@@ -20,15 +22,15 @@ public:
 
 class CreateTableCommand : public Command {
 private:
-    std::string tableName_;
-    std::vector<FieldDefinition> fields_;
+    string tableName_;
+    vector<FieldDefinition> fields_;
 
 public:
-    CreateTableCommand(std::string tableName,
-                       std::vector<FieldDefinition> fields
+    CreateTableCommand(string tableName,
+                       vector<FieldDefinition> fields
                     )
-        : tableName_(std::move(tableName)),
-          fields_(std::move(fields)) {}
+        : tableName_(move(tableName)),
+          fields_(move(fields)) {}
 
     void execute(Database& db) override {
             db.createTable(tableName_, fields_);
@@ -37,15 +39,15 @@ public:
 
 class CreateEnhancedTableCommand : public Command {
 private:
-    std::string tableName_;
-    std::vector<FieldDefinition> fields_;
+    string tableName_;
+    vector<FieldDefinition> fields_;
 
 public:
-    CreateEnhancedTableCommand(std::string tableName,
-                       std::vector<FieldDefinition> fields
+    CreateEnhancedTableCommand(string tableName,
+                       vector<FieldDefinition> fields
                     )
-        : tableName_(std::move(tableName)),
-          fields_(std::move(fields)) {}
+        : tableName_(move(tableName)),
+          fields_(move(fields)) {}
 
     void execute(Database& db) override {
             db.createEnhancedTable(tableName_, fields_);
@@ -55,31 +57,31 @@ public:
 
 class DropTableCommand : public Command {
 private:
-    std::string tableName_;
+    string tableName_;
 public:
-    DropTableCommand(std::string tableName)
-        : tableName_(std::move(tableName)) {}
+    DropTableCommand(string tableName)
+        : tableName_(move(tableName)) {}
 
     void execute(Database& db) override {
             db.dropTable(tableName_);
     }
 };
 
-// class InsertCommand : public Command {
-// private:
-//     std::string tableName_;
-//     std::vector<InsertField> fields_;
+class InsertCommand : public Command {
+private:
+    string tableName_;
+    vector<InsertField> fields_;
 
-// public:
-//     InsertCommand(std::string table,
-//                   std::vector<InsertField> fields)
-//         : tableName_(std::move(table)),
-//           fields_(std::move(fields)) {}
+public:
+    InsertCommand(string table,
+                  vector<InsertField> fields)
+        : tableName_(move(table)),
+          fields_(move(fields)) {}
 
-//     void execute(Database& db) override {
-//         // db.insert(tableName_, fields_);
-//     }
-// };
+    void execute(Database& db) override {
+        db.insert(tableName_, fields_);
+    }
+};
 
 
 #endif // COMMANDS_H

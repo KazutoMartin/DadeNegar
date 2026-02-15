@@ -42,20 +42,20 @@ unique_ptr<Command> parseDropTable(stringstream& ss) {
 }
 
 
-// unique_ptr<Command> parseInsert(stringstream& ss) {
-//     auto cmd = make_unique<InsertCommand>();
-//     cmd->type = CommandType::INSERT;
-
-//     string word;
-//     ss >> word; // into
-//     ss >> cmd->tableName;
-
-//     string rest;
-//     getline(ss, rest);
-//     cmd->fields = parseInsertFields(rest.substr(1));
-
-//     return cmd;
-// }
+unique_ptr<Command> parseInsert(stringstream& ss) {
+    
+    string word;
+    ss >> word; // into
+    string tableName;
+    ss >> tableName;
+    
+    string rest;
+    getline(ss, rest);
+    vector<InsertField> fields = parseInsertFields(rest.substr(1));
+    auto cmd = make_unique<InsertCommand>(tableName, fields);
+    
+    return cmd;
+}
 
 // unique_ptr<Command> parseUpdate(stringstream& ss) {
 //     auto cmd = make_unique<UpdateCommand>();

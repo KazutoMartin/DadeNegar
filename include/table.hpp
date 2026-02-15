@@ -14,6 +14,7 @@ using namespace std;
 #include <vector>
 #include <string>
 #include <memory>
+#include <unordered_map>
 
 #include "column.hpp"
 
@@ -22,16 +23,17 @@ using namespace std;
 class BaseTable {
 protected:
     string tableName_;
-    vector<shared_ptr<Column>> columns_;
+    unordered_map<string, shared_ptr<Column>> columns_;
 
 public:
     BaseTable(string tableName,
-              vector<shared_ptr<Column>> columns);
+          unordered_map<string, shared_ptr<Column>> columns);
 
     virtual ~BaseTable() = default;
 
     const string& getName() const;
-    const vector<shared_ptr<Column>>& getColumns() const;
+    const unordered_map<string, shared_ptr<Column>>& getColumns() const;
+
 
     virtual bool isAdvanced() const = 0;
 };
@@ -40,7 +42,7 @@ public:
 class SimpleTable : public BaseTable {
 public:
     SimpleTable(string tableName,
-                vector<shared_ptr<Column>> columns);
+            unordered_map<string, shared_ptr<Column>> columns);
 
     bool isAdvanced() const override;
 };
@@ -50,9 +52,8 @@ private:
     shared_ptr<Column> primaryKeyColumn;
 public:
     AdvancedTable(string tableName,
-                vector<shared_ptr<Column>> columns,
-                shared_ptr<Column> primaryKeyColumn
-            );
+              unordered_map<string, shared_ptr<Column>> columns,
+              shared_ptr<Column> primaryKeyColumn);
 
     bool isAdvanced() const override;
 };

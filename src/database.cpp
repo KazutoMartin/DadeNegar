@@ -39,13 +39,11 @@ void Database::createTable(string tableName, vector<FieldDefinition> fields){
         throw DuplicateFieldNameException();
     }
 
-    vector<shared_ptr<Column>> columns;
-    columns.reserve(fields.size());
+    unordered_map<string, shared_ptr<Column>> columns;
 
     for (const auto& field : fields) {
-        columns.push_back(makeColumn(field));
+        columns[field.name] = makeColumn(field);
     }
-
     shared_ptr<BaseTable> table =  make_shared<SimpleTable>(tableName, columns);
 
 
@@ -64,17 +62,16 @@ void Database::createEnhancedTable(string tableName, vector<FieldDefinition> fie
         throw DuplicateFieldNameException();
     }
 
-    vector<shared_ptr<Column>> columns;
-    columns.reserve(fields.size());
+    unordered_map<string, shared_ptr<Column>> columns;
     shared_ptr<Column> primaryKey;
 
     for (const auto& field : fields) {
-        shared_ptr<Column> newColumn = makeColumn(field);
-        if (field.required){
-            primaryKey = makeColumn(field);
-            newColumn = primaryKey;
+        auto column = makeColumn(field);
+        columns[field.name] = column;
+
+        if (field.required) {
+            primaryKey = column;
         }
-        columns.push_back(newColumn);
     }
 
     shared_ptr<BaseTable> table = make_shared<AdvancedTable>(tableName, columns, primaryKey);
@@ -95,6 +92,10 @@ void Database::dropTable(string tableName){
     tables_.erase(tableName);
 
     cout << "Success: Table " << tableName << " deleted successfully" << endl;
+
+}
+
+void Database::insert(string tableName, vector<InsertField> fields){
 
 }
 

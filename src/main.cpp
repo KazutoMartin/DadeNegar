@@ -34,8 +34,8 @@ std::unique_ptr<Command> processCommand(const std::string& line) {
     if (cmd == CMD_DROP_TABLE)
         return parseDropTable(ss);
 
-    // if (cmd == CMD_INSERT)
-    //     return parseInsert(ss);
+    if (cmd == CMD_INSERT)
+        return parseInsert(ss);
 
     // if (cmd == CMD_UPDATE)
     //     return parseUpdate(ss);
