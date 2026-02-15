@@ -41,6 +41,7 @@ unique_ptr<Command> parseDropTable(stringstream& ss) {
     return cmd;
 }
 
+
 // unique_ptr<Command> parseInsert(stringstream& ss) {
 //     auto cmd = make_unique<InsertCommand>();
 //     cmd->type = CommandType::INSERT;

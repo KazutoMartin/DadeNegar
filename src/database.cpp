@@ -93,5 +93,8 @@ void Database::dropTable(string tableName){
     }
 
     tables_.erase(tableName);
+
+    cout << "Success: Table " << tableName << " deleted successfully" << endl;
+
 }
 
