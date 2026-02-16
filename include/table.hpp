@@ -52,7 +52,7 @@ public:
     }
 
     virtual void insertRow(const unordered_map<string, string>& row) = 0;
-    virtual void update(const string &whereField, const string &fieldValue, const Operator &op, const string &updateField, const string &updateValue) = 0;
+    void update(const string &whereField, const string &fieldValue, const Operator &op, const string &updateField, const string &updateValue);
 
 
     virtual bool isAdvanced() const = 0;
@@ -65,7 +65,6 @@ public:
             unordered_map<string, shared_ptr<Column>> columns);
 
     void insertRow(const unordered_map<string, string>& row) override;
-    void update(const string &whereField, const string &fieldValue, const Operator &op, const string &updateField, const string &updateValue) override;
 
 
     bool isAdvanced() const override;
@@ -83,7 +82,6 @@ public:
 
     void insertRow(const unordered_map<string, string>& row) override;
 
-    void update(const string &whereField, const string &fieldValue, const Operator &op, const string &updateField, const string &updateValue) override;
 
 
     bool isAdvanced() const override;

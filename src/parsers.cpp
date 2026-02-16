@@ -84,6 +84,6 @@ unique_ptr<Command> parseUpdate(stringstream& ss) {
                                                                 move(op),
                                                                 updateField,
                                                                 updateValue
-                                                            );
+                                                            );                                           
     return cmd;
 }

@@ -90,9 +90,10 @@ private:
     string tableName_;
 
     string whereField_;
+    string fieldValue_;
+    
     unique_ptr<Operator> op_;
 
-    string fieldValue_;
 
     string updateField_;
     string updateValue_;   

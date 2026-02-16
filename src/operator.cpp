@@ -1,8 +1,7 @@
 #include "operator.hpp"
 
 bool equalOp(const Value& a, const Value& b) {
-    return get<int>(a) == get<int>(b)
-        || get<string>(a) == get<string>(b);
+    return a == b;
 }
 
 bool notEqualOp(const Value& a, const Value& b) {
@@ -10,6 +9,5 @@ bool notEqualOp(const Value& a, const Value& b) {
 }
 
 bool lessThanOp(const Value& a, const Value& b) {
-    return get<int>(a) < get<int>(b)
-        || get<string>(a) < get<string>(b);
+    return get<int>(a) < get<int>(b);
 }
