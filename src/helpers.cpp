@@ -7,6 +7,11 @@
 #include "utils.hpp"
 
 
+#define REQUIRED "required"
+#define OPTIONAL "optional"
+
+
+
 std::vector<std::string> split(const std::string& s, char delim) {
     std::vector<std::string> tokens;
     std::string token;
@@ -33,7 +38,9 @@ std::vector<FieldDefinition> parseFieldDefinitions(const std::string& input) {
         std::stringstream ss(part);
         FieldDefinition f;
         std::string type;
-        ss >> f.name >> type >> f.required;
+        std::string state;
+        ss >> f.name >> type >> state;
+        f.required = (state == REQUIRED);
         f.type = handleColumnType(type);
         fields.push_back(f);
     }
@@ -41,13 +48,13 @@ std::vector<FieldDefinition> parseFieldDefinitions(const std::string& input) {
     return fields;
 }
 
-std::vector<InsertField> parseInsertFields(const std::string& input) {
-    std::vector<InsertField> fields;
+unordered_map<string, string> parseInsertFields(const std::string& input) {
+    unordered_map<string, string> fields;
     auto parts = split(input, ';');
 
     for (const auto& part : parts) {
         auto kv = split(part, ':');
-        fields.push_back({kv[0], kv[1]});
+        fields[kv[0]] = kv[1];
     }
 
     return fields;

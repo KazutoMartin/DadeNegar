@@ -51,8 +51,8 @@ unique_ptr<Command> parseInsert(stringstream& ss) {
     
     string rest;
     getline(ss, rest);
-    vector<InsertField> fields = parseInsertFields(rest.substr(1));
-    auto cmd = make_unique<InsertCommand>(tableName, fields);
+    unordered_map<string, string> fields = parseInsertFields(rest.substr(1));
+    unique_ptr<InsertCommand> cmd = make_unique<InsertCommand>(tableName, fields);
     
     return cmd;
 }

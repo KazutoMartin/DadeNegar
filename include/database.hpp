@@ -22,7 +22,7 @@ public:
     void createTable(string tableName, vector<FieldDefinition> fields);
     void createEnhancedTable(string tableName, vector<FieldDefinition> fields);
     void dropTable(string tableName);
-    void insert(string tableName, vector<InsertField> fields);
+    void insert(string tableName, unordered_map<string, string> fields);
 
 
 };

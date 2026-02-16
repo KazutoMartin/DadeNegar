@@ -70,11 +70,11 @@ public:
 class InsertCommand : public Command {
 private:
     string tableName_;
-    vector<InsertField> fields_;
+    unordered_map<string, string> fields_;
 
 public:
     InsertCommand(string table,
-                  vector<InsertField> fields)
+                  unordered_map<string, string> fields)
         : tableName_(move(table)),
           fields_(move(fields)) {}
 

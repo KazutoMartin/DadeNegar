@@ -95,7 +95,16 @@ void Database::dropTable(string tableName){
 
 }
 
-void Database::insert(string tableName, vector<InsertField> fields){
+void Database::insert(string tableName, unordered_map<string, string> fields){
+    shared_ptr<BaseTable> table = getTable(tableName);
+    if (!table){
+        throw TableDoesNotExistException();
+    }
+
+    table->insertRow(fields);
+
+
+    cout << "Success: Record inserted into table successfully" << endl;
 
 }
 

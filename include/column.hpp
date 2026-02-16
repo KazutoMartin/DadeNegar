@@ -3,18 +3,23 @@
 
 #include <string>
 
+using namespace std;
+
+using Value = variant<int, string>;
+
+
 class Column {
 protected:
-    std::string name;
+    string name;
     bool required;
 
 public:
-    Column(std::string name, bool required)
-        : name(std::move(name)), required(required) {}
+    Column(string name, bool required)
+        : name(move(name)), required(required) {}
 
     virtual ~Column() = default;
 
-    const std::string& getName() const {
+    const string& getName() const {
         return name;
     }
 
@@ -22,35 +27,26 @@ public:
         return required;
     }
 
-    // برای تشخیص نوع در runtime
-    virtual bool isInt() const = 0;
-    virtual bool isString() const = 0;
+
+    virtual Value convertValue(const string& input) const = 0;
 };
 
 class IntColumn : public Column {
 public:
-    IntColumn(const std::string& name, bool required)
+    IntColumn(const string& name, bool required)
         : Column(name, required) {}
 
-    bool isInt() const override {
-        return true;
-    }
-
-    bool isString() const override {
-        return false;
+    Value convertValue(const string& input) const override {
+        return stoi(input);
     }
 };
 class StrColumn : public Column {
 public:
-    StrColumn(const std::string& name, bool required)
+    StrColumn(const string& name, bool required)
         : Column(name, required) {}
 
-    bool isInt() const override {
-        return false;
-    }
-
-    bool isString() const override {
-        return true;
+    Value convertValue(const string& input) const override {
+        return input;
     }
 };
 

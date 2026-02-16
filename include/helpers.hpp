@@ -4,22 +4,24 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
+
 
 #include "utils.hpp"
 
+using namespace std;
 
+vector<string> split(const string& s, char delim);
 
-std::vector<std::string> split(const std::string& s, char delim);
+vector<FieldDefinition> parseFieldDefinitions(const string& input);
 
-std::vector<FieldDefinition> parseFieldDefinitions(const std::string& input);
+unordered_map<string, string> parseInsertFields(const string& input);
 
-std::vector<InsertField> parseInsertFields(const std::string& input);
+Condition parseCondition(stringstream& ss);
 
-Condition parseCondition(std::stringstream& ss);
+bool checkFieldNameDuplication(const vector<FieldDefinition>& fields);
 
-bool checkFieldNameDuplication(const std::vector<FieldDefinition>& fields);
-
-ColumnType handleColumnType(std::string type);
+ColumnType handleColumnType(string type);
 
 
 #endif // HELPERS_H

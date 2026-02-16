@@ -37,7 +37,7 @@ public:
 class MissingRequiredFieldException : public DatabaseException {
 public:
     MissingRequiredFieldException()
-        : DatabaseException("Error: value Missing field required for") {}
+        : DatabaseException("Error: Missing value for required field") {}
 };
 
 class DuplicateRequiredValueException : public DatabaseException {

@@ -1,5 +1,8 @@
 #include "table.hpp"
 
+#include <iostream>
+
+
 using namespace std;
 
 BaseTable::BaseTable(
@@ -42,4 +45,58 @@ bool SimpleTable::isAdvanced() const {
 
 bool AdvancedTable::isAdvanced() const {
     return true;
+}
+
+void SimpleTable::insertRow(const unordered_map<string, string>& row){
+    unordered_map<string, Value> storedRow;
+
+    for (const auto& [columnName, columnPtr] : columns_) {
+
+        auto it = row.find(columnName);
+        if (it == row.end()) {
+            if (columnPtr->isRequired()) {
+                throw MissingRequiredFieldException();
+            }
+            continue;
+        }
+
+        storedRow[columnName] = columnPtr->convertValue(it->second);
+    }
+
+    rows_.push_back(storedRow);
+}
+
+void AdvancedTable::insertRow(const unordered_map<string, string>& row){
+    unordered_map<string, Value> storedRow;
+
+    for (const auto& [columnName, columnPtr] : columns_) {
+
+        auto it = row.find(columnName);
+        if (it == row.end()) {
+            if (columnPtr->isRequired()) {
+                throw MissingRequiredFieldException();
+            }
+            continue;
+        }
+
+        storedRow[columnName] = columnPtr->convertValue(it->second);
+    }
+
+    const string& pkName = primaryKeyColumn->getName();
+
+
+    auto pkIt = storedRow.find(pkName);
+
+
+    const Value& newPkValue = pkIt->second;
+
+
+    for (const auto& existingRow : rows_) {
+        auto it = existingRow.find(pkName);
+        if (it != existingRow.end() && it->second == newPkValue) {
+            throw DuplicateRequiredValueException();
+        }
+    }
+
+    rows_.push_back(storedRow);
 }
