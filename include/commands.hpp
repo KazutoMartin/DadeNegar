@@ -91,7 +91,7 @@ private:
 
     string whereField_;
     string fieldValue_;
-    
+
     unique_ptr<Operator> op_;
 
 
@@ -120,6 +120,43 @@ public:
             *op_,
             updateField_,
             updateValue_
+        );
+    }
+};
+
+class SelectCommand : public Command {
+private:
+    string tableName_;
+
+    string whereField_;
+    string fieldValue_;
+    
+    unique_ptr<Operator> op_;
+
+
+    vector<string> requestedFields_;
+
+public:
+    SelectCommand(string tableName,
+                  string whereField,
+                  string fieldValue,
+                  unique_ptr<Operator> op,
+                  vector<string> requestedFields
+                  )
+        : tableName_(move(tableName)),
+          whereField_(move(whereField)),
+          fieldValue_(move(fieldValue)),
+          op_(move(op)),
+          requestedFields_(move(requestedFields))
+         {}
+
+    void execute(Database& db) override {
+        db.select(
+            tableName_,
+            whereField_,
+            fieldValue_,
+            *op_,
+            requestedFields_
         );
     }
 };

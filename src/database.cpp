@@ -123,4 +123,23 @@ void Database::update(const std::string& tableName,
     }
 
     table->update(whereField, fieldValue, op, updateField, updateValue);
+
+    cout << "Success: Records updated in table" << endl;
+}
+
+void Database::select(const std::string& tableName,
+                      const std::string& whereField,
+                      const std::string& fieldValue,
+                      const Operator& op,
+                      vector<string> requestedFields
+                      )
+{
+    shared_ptr<BaseTable> table = getTable(tableName);
+    if (!table){
+        throw TableDoesNotExistException();
+    }
+
+    table->select(whereField, fieldValue, op, requestedFields);
+
+    
 }

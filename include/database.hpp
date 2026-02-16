@@ -31,6 +31,13 @@ public:
                       const Operator& op,
                       const std::string& updateField,
                       const std::string& updateValue);
+
+    void select(const std::string& tableName,
+                      const std::string& whereField,
+                      const std::string& fieldValue,
+                      const Operator& op,
+                      vector<string> requestedFields
+                      );
 };
 
 #endif //DATABASE_H

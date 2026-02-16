@@ -40,8 +40,8 @@ std::unique_ptr<Command> processCommand(const std::string& line) {
     if (cmd == CMD_UPDATE)
         return parseUpdate(ss);
 
-    // if (cmd == CMD_SELECT)
-    //     return parseSelect(ss);
+    if (cmd == CMD_SELECT)
+        return parseSelect(ss);
 }
 
 int main()

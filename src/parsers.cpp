@@ -87,3 +87,36 @@ unique_ptr<Command> parseUpdate(stringstream& ss) {
                                                             );                                           
     return cmd;
 }
+
+
+unique_ptr<Command> parseSelect(stringstream& ss) {
+    
+    string fieldsPart;
+    ss >> fieldsPart;
+    vector<string> fields = split(fieldsPart, ';');
+    
+    string word;
+    ss >> word; // from
+    
+    string tableName;
+    ss >> tableName;
+    
+
+    
+    ss >> word; // where
+    string opSymbol;
+    string whereField;
+    string fieldValue;
+    ss >> whereField >> opSymbol >> fieldValue;
+    CompareFunction compare = identifyOperatorSymbol(opSymbol);
+    unique_ptr<Operator> op = make_unique<Operator>(compare);
+    
+    
+    unique_ptr<SelectCommand> cmd = make_unique<SelectCommand>(tableName,
+                                                                whereField,
+                                                                fieldValue,
+                                                                move(op),
+                                                                fields
+                                                            );
+    return cmd;
+}

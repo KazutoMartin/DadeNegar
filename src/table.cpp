@@ -123,7 +123,5 @@ void BaseTable::update(const string &whereField,
             row[updateField] = newVal;
         }
     }
-
-    cout << "Success: Records updated in table" << endl;
     
 }
