@@ -19,4 +19,5 @@ enum class CommandType {
     SELECT
 };
 
+
 #endif //ENUMS_H

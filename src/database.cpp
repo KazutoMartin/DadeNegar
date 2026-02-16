@@ -85,8 +85,8 @@ void Database::createEnhancedTable(string tableName, vector<FieldDefinition> fie
 
 
 void Database::dropTable(string tableName){
-    if (!getTable(tableName)){
-        throw TableDoesNotExistException();
+    if (getTable(tableName)){
+        throw TableAlreadyExistsException();
     }
 
     tables_.erase(tableName);
@@ -108,3 +108,19 @@ void Database::insert(string tableName, unordered_map<string, string> fields){
 
 }
 
+
+
+void Database::update(const std::string& tableName,
+                      const std::string& whereField,
+                      const std::string& fieldValue,
+                      const Operator& op,
+                      const std::string& updateField,
+                      const std::string& updateValue)
+{
+    shared_ptr<BaseTable> table = getTable(tableName);
+    if (!table){
+        throw TableDoesNotExistException();
+    }
+
+    table->update(whereField, fieldValue, op, updateField, updateValue);
+}

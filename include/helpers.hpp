@@ -7,7 +7,10 @@
 #include <unordered_map>
 
 
+
 #include "utils.hpp"
+#include "operator.hpp"
+
 
 using namespace std;
 
@@ -22,6 +25,9 @@ Condition parseCondition(stringstream& ss);
 bool checkFieldNameDuplication(const vector<FieldDefinition>& fields);
 
 ColumnType handleColumnType(string type);
+
+CompareFunction identifyOperatorSymbol(string opSymbol);
+
 
 
 #endif // HELPERS_H

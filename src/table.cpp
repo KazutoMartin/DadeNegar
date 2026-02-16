@@ -100,3 +100,36 @@ void AdvancedTable::insertRow(const unordered_map<string, string>& row){
 
     rows_.push_back(storedRow);
 }
+
+void SimpleTable::update(const string &whereField,
+                        const string &fieldValue,
+                        const Operator &op, 
+                        const string &updateField, 
+                        const string &updateValue)
+{
+    shared_ptr<Column> updateCol = getColumn(updateField);
+    shared_ptr<Column> whereCol = getColumn(whereField);
+
+
+    Value newVal = updateCol->convertValue(updateValue);
+    Value value = whereCol->convertValue(fieldValue);
+
+
+    for (auto& row : rows_) {
+        if (op.apply(value, row[whereField])) {
+            row[updateField] = newVal;
+        }
+    }
+
+    cout << "Success: Records updated in table" << endl;
+    
+}
+
+
+void AdvancedTable::update(const string &whereField,
+                        const string &fieldValue,
+                        const Operator &op, 
+                        const string &updateField, 
+                        const string &updateValue)
+{
+}

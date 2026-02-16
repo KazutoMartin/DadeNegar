@@ -57,18 +57,33 @@ unique_ptr<Command> parseInsert(stringstream& ss) {
     return cmd;
 }
 
-// unique_ptr<Command> parseUpdate(stringstream& ss) {
-//     auto cmd = make_unique<UpdateCommand>();
-//     cmd->type = CommandType::UPDATE;
+unique_ptr<Command> parseUpdate(stringstream& ss) {
+    string tableName;
+    string updateField;
+    string updateValue;
+    string opSymbol;
+    string whereField;
+    string fieldValue;
 
-//     string word;
-//     ss >> cmd->tableName;
-//     ss >> word; // where
+    
+    string word;
+    ss >> tableName;
+    ss >> word; // where
 
-//     cmd->where = parseCondition(ss);
 
-//     ss >> word; // set
-//     ss >> cmd->updateField >> cmd->updateValue;
-
-//     return cmd;
-// }
+    ss >> whereField >> opSymbol >> fieldValue;
+    CompareFunction compare = identifyOperatorSymbol(opSymbol);
+    unique_ptr<Operator> op = make_unique<Operator>(compare);
+    
+    ss >> word; // set
+    ss >> updateField >> updateValue;
+    
+    unique_ptr<UpdateCommand> cmd = make_unique<UpdateCommand>(tableName,
+                                                                whereField,
+                                                                fieldValue,
+                                                                move(op),
+                                                                updateField,
+                                                                updateValue
+                                                            );
+    return cmd;
+}

@@ -4,6 +4,8 @@
 #include "enums.hpp"
 #include "utils.hpp"
 #include "database.hpp"
+#include "operator.hpp"
+
 
 #include <iostream>
 
@@ -82,6 +84,45 @@ public:
         db.insert(tableName_, fields_);
     }
 };
+
+class UpdateCommand : public Command {
+private:
+    string tableName_;
+
+    string whereField_;
+    unique_ptr<Operator> op_;
+
+    string fieldValue_;
+
+    string updateField_;
+    string updateValue_;   
+
+public:
+    UpdateCommand(string tableName,
+                  string whereField,
+                  string fieldValue,
+                  unique_ptr<Operator> op,
+                  string updateField,
+                  string updateValue)
+        : tableName_(move(tableName)),
+          whereField_(move(whereField)),
+          fieldValue_(move(fieldValue)),
+          op_(move(op)),
+          updateField_(move(updateField)),
+          updateValue_(move(updateValue)) {}
+
+    void execute(Database& db) override {
+        db.update(
+            tableName_,
+            whereField_,
+            fieldValue_,
+            *op_,
+            updateField_,
+            updateValue_
+        );
+    }
+};
+
 
 
 #endif // COMMANDS_H
