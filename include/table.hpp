@@ -17,6 +17,7 @@ using namespace std;
 #include <vector>
 #include <string>
 #include <memory>
+#include <algorithm>
 #include <unordered_map>
 #include <stdexcept>
 
@@ -53,6 +54,8 @@ public:
 
     virtual void insertRow(const unordered_map<string, string>& row) = 0;
     void update(const string &whereField, const string &fieldValue, const Operator &op, const string &updateField, const string &updateValue);
+    virtual vector<unordered_map<string, Value>> select(const string &whereField, const string &fieldValue, const Operator &op, vector<string> requestedFields) = 0;
+
 
 
     virtual bool isAdvanced() const = 0;
@@ -68,6 +71,9 @@ public:
 
 
     bool isAdvanced() const override;
+
+    vector<unordered_map<string, Value>> select(const string &whereField, const string &fieldValue, const Operator &op, vector<string> requestedFields) override;
+
     
 };
 
@@ -85,5 +91,11 @@ public:
 
 
     bool isAdvanced() const override;
+
+    vector<unordered_map<string, Value>> select(const string &whereField, const string &fieldValue, const Operator &op, vector<string> requestedFields) override;
+
+    vector<unordered_map<string, Value>> sortSelectedRows(vector<unordered_map<string, Value>> selectedRows);
+
+
 };
 #endif

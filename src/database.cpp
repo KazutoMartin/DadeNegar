@@ -85,7 +85,7 @@ void Database::createEnhancedTable(string tableName, vector<FieldDefinition> fie
 
 
 void Database::dropTable(string tableName){
-    if (getTable(tableName)){
+    if (!getTable(tableName)){
         throw TableAlreadyExistsException();
     }
 
@@ -139,7 +139,15 @@ void Database::select(const std::string& tableName,
         throw TableDoesNotExistException();
     }
 
-    table->select(whereField, fieldValue, op, requestedFields);
+    vector<unordered_map<string, Value>> selectedRows = table->select(whereField, fieldValue, op, requestedFields);
 
-    
+    // assuming requested fields length is always one.
+    for (const auto& row : selectedRows){
+        printVariantValue(row.at(whereField));
+        cout << " : ";
+        printVariantValue(row.at(requestedFields[0]));
+        cout << endl;
+    }
+
 }
+

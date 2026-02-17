@@ -19,7 +19,7 @@ public:
 class TableAlreadyExistsException : public DatabaseException {
 public:
     TableAlreadyExistsException()
-        : DatabaseException("Error: with table A this name already exists") {}
+        : DatabaseException("Error: A table with this name already exists") {}
 };
 
 class DuplicateFieldNameException : public DatabaseException {
@@ -49,7 +49,7 @@ public:
 class NoMatchingRecordException : public DatabaseException {
 public:
     NoMatchingRecordException()
-        : DatabaseException("Error: No found records matching") {}
+        : DatabaseException("Error: No matching records found") {}
 };
 
 #endif // EXCEPTIONS_H

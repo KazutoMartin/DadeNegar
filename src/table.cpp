@@ -125,3 +125,86 @@ void BaseTable::update(const string &whereField,
     }
     
 }
+
+
+vector<unordered_map<string, Value>> SimpleTable::select(const string &whereField, const string &fieldValue, const Operator &op, vector<string> requestedFields){
+    shared_ptr<Column> whereCol = getColumn(whereField);
+
+    Value value = whereCol->convertValue(fieldValue);
+
+    vector<unordered_map<string, Value>> selectedRows;
+
+    bool foundFlag = false;
+     
+    for (auto& row : rows_) {
+        if (op.apply(row.at(whereField), value)) {
+
+            unordered_map<string, Value> filteredRow;
+
+            for (const auto& field : requestedFields) {
+                filteredRow[field] = row.at(field);
+            }
+            filteredRow[whereField] = row.at(whereField);
+
+            selectedRows.push_back(std::move(filteredRow));
+            foundFlag = true;
+        }
+    }
+
+    if (!foundFlag){
+        throw NoMatchingRecordException();
+    }
+
+    return selectedRows;
+    
+}
+
+vector<unordered_map<string, Value>> AdvancedTable::sortSelectedRows(vector<unordered_map<string, Value>> selectedRows) {
+    
+    string primaryKeyName = primaryKeyColumn->getName();
+
+    sort(
+        selectedRows.begin(),
+        selectedRows.end(),
+        [&](unordered_map<string, Value> a,
+            unordered_map<string, Value> b) {
+
+            return a.at(primaryKeyName) < b.at(primaryKeyName);
+        }
+    );
+
+    return selectedRows;
+}
+vector<unordered_map<string, Value>> AdvancedTable::select(const string &whereField, const string &fieldValue, const Operator &op, vector<string> requestedFields){
+    shared_ptr<Column> whereCol = getColumn(whereField);
+
+    Value value = whereCol->convertValue(fieldValue);
+
+    vector<unordered_map<string, Value>> selectedRows;
+
+    bool foundFlag = false;
+     
+    for (auto& row : rows_) {
+        if (op.apply(row.at(whereField), value)) {
+
+            unordered_map<string, Value> filteredRow;
+
+            for (const auto& field : requestedFields) {
+                auto it = row.find(field);
+                filteredRow[field] = it->second;
+            }
+
+            selectedRows.push_back(std::move(filteredRow));
+            foundFlag = true;
+        }
+    }
+
+    if (!foundFlag){
+        throw NoMatchingRecordException();
+    }
+
+    sortSelectedRows(selectedRows);
+
+    return selectedRows;
+    
+}

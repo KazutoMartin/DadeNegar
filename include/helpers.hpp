@@ -28,6 +28,9 @@ ColumnType handleColumnType(string type);
 
 CompareFunction identifyOperatorSymbol(string opSymbol);
 
+void printVariantValue(const Value& v);
+
+
 
 
 #endif // HELPERS_H

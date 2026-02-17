@@ -2,6 +2,9 @@
 #include <vector>
 #include <memory>
 #include <unordered_set>
+#include <iostream>
+
+
 
 #include "helpers.hpp"
 #include "utils.hpp"
@@ -87,4 +90,11 @@ CompareFunction identifyOperatorSymbol(string opSymbol){
     } else if (opSymbol == "<"){
         return lessThanOp;
     }
+}
+
+
+void printVariantValue(const Value& v) {
+    visit([](const auto& value) {
+        cout << value;
+    }, v);
 }
