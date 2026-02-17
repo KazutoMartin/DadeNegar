@@ -30,8 +30,8 @@ public:
 
 class TableDoesNotExistException : public DatabaseException {
 public:
-    TableDoesNotExistException()
-        : DatabaseException("Error: Table does not exist") {}
+    TableDoesNotExistException(const std::string& tableName)
+        : DatabaseException("Error: Table " + tableName + " does not exist") {}
 };
 
 class MissingRequiredFieldException : public DatabaseException {
