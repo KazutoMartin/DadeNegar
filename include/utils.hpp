@@ -10,15 +10,5 @@ struct FieldDefinition {
     bool required;
 };
 
-struct InsertField {
-    std::string name;
-    std::string value;
-};
-
-struct Condition {
-    std::string field;
-    std::string op;
-    std::string value;
-};
 
 #endif // UTILS_H

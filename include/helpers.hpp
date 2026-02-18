@@ -6,8 +6,6 @@
 #include <vector>
 #include <unordered_map>
 
-
-
 #include "utils.hpp"
 #include "operator.hpp"
 
@@ -19,8 +17,6 @@ vector<string> split(const string& s, char delim);
 vector<FieldDefinition> parseFieldDefinitions(const string& input);
 
 unordered_map<string, string> parseInsertFields(const string& input);
-
-Condition parseCondition(stringstream& ss);
 
 bool checkFieldNameDuplication(const vector<FieldDefinition>& fields);
 
