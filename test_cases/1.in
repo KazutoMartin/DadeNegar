@@ -1,0 +1,3 @@
+create_table users name string required;age int optional
+create_table users name string required;age int optional
+create_table hey name string required;name int optional

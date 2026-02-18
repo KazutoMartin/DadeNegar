@@ -1,0 +1,7 @@
+create_enhanced_table students student_id int required;name string optional;last_name string optional;age int optional
+insert into students student_id:1;name:kourosh;last_name:alinaghi;age:20
+insert into students student_id:3;name:parisa;last_name:yahyapour;age:19
+insert into students student_id:2;name:matin;last_name:razaghi;age:29
+update students where age < 25 set name parisa
+select name;last_name from students where age < 30
+

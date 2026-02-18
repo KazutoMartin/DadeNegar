@@ -1,0 +1,8 @@
+create_table users name string required;age int optional
+create_enhanced_table students student_id int required;name string optional;last_name string optional
+insert into users name:kourosh;age:22
+insert into students student_id:1;name:parisa;last_name:yahyapour
+insert into university name:UT
+insert into students student_id:1;name:kourosh;last_name:alinaghi
+insert into users age:12
+insert into students name:kourosh;last_name:alinaghi

@@ -1,0 +1,3 @@
+create_enhanced_table students student_id int required;name string optional;last_name string optional
+create_enhanced_table students student_id int required;name string optional;last_name string optional
+create_enhanced_table hey student_id int required;name string optional;last_name string optional;name string optional
