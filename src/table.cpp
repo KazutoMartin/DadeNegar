@@ -144,7 +144,6 @@ vector<unordered_map<string, Value>> SimpleTable::select(const string &whereFiel
             for (const auto& field : requestedFields) {
                 filteredRow[field] = row.at(field);
             }
-            filteredRow[whereField] = row.at(whereField);
 
             selectedRows.push_back(std::move(filteredRow));
             foundFlag = true;
@@ -173,6 +172,7 @@ vector<unordered_map<string, Value>> AdvancedTable::sortSelectedRows(vector<unor
         }
     );
 
+
     return selectedRows;
 }
 vector<unordered_map<string, Value>> AdvancedTable::select(const string &whereField, const string &fieldValue, const Operator &op, vector<string> requestedFields){
@@ -180,21 +180,12 @@ vector<unordered_map<string, Value>> AdvancedTable::select(const string &whereFi
 
     Value value = whereCol->convertValue(fieldValue);
 
-    vector<unordered_map<string, Value>> selectedRows;
-
+    vector<unordered_map<string, Value>> matchedRows;
     bool foundFlag = false;
-     
-    for (auto& row : rows_) {
+
+    for (const auto& row : rows_) {
         if (op.apply(row.at(whereField), value)) {
-
-            unordered_map<string, Value> filteredRow;
-
-            for (const auto& field : requestedFields) {
-                auto it = row.find(field);
-                filteredRow[field] = it->second;
-            }
-
-            selectedRows.push_back(std::move(filteredRow));
+            matchedRows.push_back(row);
             foundFlag = true;
         }
     }
@@ -202,8 +193,21 @@ vector<unordered_map<string, Value>> AdvancedTable::select(const string &whereFi
     if (!foundFlag){
         throw NoMatchingRecordException();
     }
+    
+    matchedRows = sortSelectedRows(matchedRows);
 
-    sortSelectedRows(selectedRows);
+    vector<unordered_map<string, Value>> selectedRows;
+
+    for (const auto& row : matchedRows) {
+        unordered_map<string, Value> filteredRow;
+
+        for (const auto& field : requestedFields) {
+            filteredRow[field] = row.at(field);
+        }
+
+        selectedRows.push_back(std::move(filteredRow));
+    }
+
 
     return selectedRows;
     

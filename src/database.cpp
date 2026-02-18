@@ -141,13 +141,22 @@ void Database::select(const std::string& tableName,
 
     vector<unordered_map<string, Value>> selectedRows = table->select(whereField, fieldValue, op, requestedFields);
 
-    // assuming requested fields length is always one.
-    for (const auto& row : selectedRows){
-        printVariantValue(row.at(whereField));
-        cout << " : ";
-        printVariantValue(row.at(requestedFields[0]));
+    int idx = 1;
+
+    for (const auto& row : selectedRows) {
+        cout << idx++ << ". ";
+
+        for (size_t i = 0; i < requestedFields.size(); ++i) {
+            const auto& field = requestedFields[i];
+
+            printVariantValue(row.at(field));
+
+            if (i + 1 < requestedFields.size()) {
+                cout << " : ";
+            }
+        }
+
         cout << endl;
     }
-
 }
 

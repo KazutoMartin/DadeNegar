@@ -19,7 +19,7 @@ unique_ptr<Command> parseCreateTable(
     ss >> tableName;
 
     string rest;
-    getline(ss, rest); // fields
+    getline(ss, rest);
     auto fields = parseFieldDefinitions(rest.substr(1));
     unique_ptr<Command> cmd;
     if (type == CommandType::CREATE_TABLE){

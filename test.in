@@ -1,0 +1,5 @@
+create_enhanced_table students student_id int required;name string optional;last_name string optional
+insert into students student_id:2;name:kourosh;last_name:alinaghi
+insert into students student_id:1;name:parisa;last_name:yahyapour
+insert into students student_id:3;name:matin;last_name:razaghi
+select name;last_name from students where student_id != 10
