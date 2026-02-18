@@ -45,7 +45,7 @@ unique_ptr<Command> parseDropTable(stringstream& ss) {
 unique_ptr<Command> parseInsert(stringstream& ss) {
     
     string word;
-    ss >> word; // into
+    ss >> word; 
     string tableName;
     ss >> tableName;
     
@@ -68,14 +68,14 @@ unique_ptr<Command> parseUpdate(stringstream& ss) {
     
     string word;
     ss >> tableName;
-    ss >> word; // where
+    ss >> word; 
 
 
     ss >> whereField >> opSymbol >> fieldValue;
     CompareFunction compare = identifyOperatorSymbol(opSymbol);
     unique_ptr<Operator> op = make_unique<Operator>(compare);
     
-    ss >> word; // set
+    ss >> word;
     ss >> updateField >> updateValue;
     
     unique_ptr<UpdateCommand> cmd = make_unique<UpdateCommand>(tableName,
@@ -96,14 +96,14 @@ unique_ptr<Command> parseSelect(stringstream& ss) {
     vector<string> fields = split(fieldsPart, ';');
     
     string word;
-    ss >> word; // from
+    ss >> word; 
     
     string tableName;
     ss >> tableName;
     
 
     
-    ss >> word; // where
+    ss >> word;
     string opSymbol;
     string whereField;
     string fieldValue;
